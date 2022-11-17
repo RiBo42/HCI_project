@@ -2,11 +2,18 @@
 <!doctype html>
 <html lang="en">
 	<head>
-	{% block header %}
-    {% endblock header %}
+		<!-- Date&time range picker CSS & JS -->
+		<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+		
+		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+		{% block header %}
+	    {% endblock header %}
 	</head>
 	<body>
-	{% block content %}
-    {% endblock content %}
+		{% block content %}
+	    {% endblock content %}
 	</body>
 </html>
