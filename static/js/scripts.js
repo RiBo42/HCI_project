@@ -1,5 +1,5 @@
-var charts = [ undefined, undefined, undefined ];\
-var testing_data = []
+var charts = [ undefined, undefined, undefined ];
+
 function make_chart(id, data, canvas,chart_type) {
     var ctx = document.getElementById(canvas);
     if (charts[id] != undefined) {
@@ -38,7 +38,6 @@ function make_chart(id, data, canvas,chart_type) {
 
 function update_chart(){
     var range = $('.datetimerange').data('daterangepicker');
-    //console.log(range.startDate.format('YYYY-MM-DD HH:MM'))
     $.ajax({
         url: "/data/",
         data: jQuery.param({
