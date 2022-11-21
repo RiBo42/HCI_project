@@ -1,12 +1,13 @@
-{% extends 'base.html'%}  
-{%block content%} 
-{% load crispy_forms_tags %}    
+{% extends 'base.html'%}
+{%block content%}
+{% load crispy_forms_tags %}
        <title>Register</title>
 
         <h1>Register</h1>
 
         {% if registered %}
         <strong>Thank you for registering!</strong>
+        <a href="{% url 'index' %}">Return to the homepage.</a>
         {% else %}
         <strong>register here!</strong><br />
 
