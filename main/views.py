@@ -2,10 +2,19 @@ from django.shortcuts import render
 from .forms import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
+from main.models import UserProfile
+from .data_processing import enqueue, hrv_generator, get_ppg
+from collections import deque
+import json
 
+ppg_data = deque()
+ppg = []
+measures = {}
+num = 0
+entries = {}
 def index(request):
-	context = {}
-	return render(request, 'index.html', context)
+  context = {}
+  return render(request, 'index.html', context)
 
 def register(request):
     registered = False
@@ -51,7 +60,7 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect('')
-            else:                
+            else:
                 return HttpResponse("Your account is disabled.")
         else:
             print ("Invalid login details: {0}, {1}".format(username, password))
@@ -60,4 +69,27 @@ def user_login(request):
     else:
         return render(request, 'login.html', {})
 
-
+def post(request):
+	global ppg_data, ppg, sampling_rate
+	global measures,num
+	userprofile = UserProfile.objects.filter(user__username__startswith = "yousuf")[0]
+	stored_measures = userprofile.data #ensure that data field is populated!
+	if request.method == 'POST':
+	    num += 1
+	    print(num)
+	    data = json.loads(request.body)
+	    if len(data):
+	        time = data['time']
+	        ppg_data = enqueue(ppg_data, data)
+	        sampling_rate, ppg, ppg_data = get_ppg(ppg_data, 60)
+	        working_data, measures = hrv_generator(measures, ppg, sampling_rate)
+	        if len(ppg) and len(measures):
+	            print("SUCCESS!")
+	            try:
+	                stored_measures[time] = measures
+	                userprofile.data = dict(stored_measures)
+	                userprofile.save()
+	            except Exception as e:
+	                print(e)
+	entries = len(stored_measures.keys())
+	return render(request, 'post.html',context = {'measures':measures,"stored_measures":stored_measures,"entries":entries})
