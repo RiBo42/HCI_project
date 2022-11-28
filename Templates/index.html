@@ -10,12 +10,19 @@
 	Hello
 </div>
 
+
+{% if user.is_authenticated %}
 <div>
-  <a href="/register/">Register Here</a>
+	<a href="{% url 'user' user.username %}">Account</a>
+</div>
+{% else %}
+<div>
+	<a href="/register/">Register Here</a>
 </div>
 <div>
-  <a href="/login/">Login</a>
+	<a href="/login/">Login</a>
 </div>
+{% endif %}
 <div>
   <canvas id="1"></canvas>
 </div>

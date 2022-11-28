@@ -6,6 +6,9 @@ from main.models import UserProfile
 from .data_processing import enqueue, hrv_generator, get_ppg,calorie_calc
 from collections import deque
 import json
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 ppg_data = deque()
 ppg = []
@@ -15,7 +18,12 @@ entries = {}
 def index(request):
   context = {}
   return render(request, 'index.html', context)
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated,)
 
+    def get(self, request):
+        content = {'message': 'Hello, World!'}
+        return Response(content)
 def register(request):
     registered = False
 
@@ -98,3 +106,7 @@ def post(request):
 	userprofile.calories_burnt = calories
 	userprofile.save()
 	return render(request, 'post.html',context = {'measures':measures,"stored_measures":stored_measures,"entries":entries,"calories":calories})
+
+def user(request,username):
+    userprofile = UserProfile.objects.filter(user__username__startswith = username)[0]
+    return render(request, 'user.html', context = {"userprofile":userprofile,})

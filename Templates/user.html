@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+  <h3>Welcome, {{userprofile.user}}</h3>
+  <a href="{% url 'index' %}">Home</a>
+
+
+
+
+{% endblock %}
