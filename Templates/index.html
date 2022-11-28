@@ -2,23 +2,50 @@
 {% load static %}
 
 {% block header %}
-<script src = "{% static '/js/scripts.js' %}"></script>
 {% endblock header %}
 
 {% block content %}
-<div>
-	Hello
+
+<!--- navbar -->
+<!--
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="/login/">
+    <img src="{% static 'images/logo.png'%}" width="30" height="30" alt="MyMind logo">
+  </a>
+</nav> -->
+
+
+<nav class="navbar navbar-light bg-light justify-content-between">
+	<a href= "{% url 'index' %}">
+  <img class= "navbar-brand" src="{% static 'images/logo.png'%}" width="30" height="30" alt="MyMind logo">
+	</a>
+	<a class="nav-link active writing" id="tab-login" data-mdb-toggle="pill" href="{% url 'login' %}" role="tab"
+      aria-controls="pills-login" aria-selected="true">Login</a>
+</nav>
+
+<div class="intro-box">
+	<p class= "my-mind-text">We are my mind</p>
 </div>
 
-<div>
-  <a href="/register/">Register Here</a>
+<div class="exist-box">
+	<p class= "my-mind-text">We exist to help you track your smartwatch data against your mood </p>
 </div>
-<div>
+
+<div class ="sign-up-button">
+	<button href="{% url 'register' %}" type="button">Sign up</button>
+</div>
+
+<!-- <div>
   <a href="/login/">Login</a>
-</div>
-<div>
-  <canvas id="1"></canvas>
-</div>
-<input type="text" class="datetimerange"  value="12/31/2017 - 01/31/2018"/>
+</div> -->
+
+
+
+<!-- <div>
+  <a href="/register/">Sign up</a>
+</div> -->
+
+
+
 
 {% endblock content %}
