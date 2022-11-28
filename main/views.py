@@ -3,7 +3,7 @@ from .forms import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from main.models import UserProfile
-from .data_processing import enqueue, hrv_generator, get_ppg
+from .data_processing import enqueue, hrv_generator, get_ppg,calorie_calc
 from collections import deque
 import json
 
@@ -74,6 +74,7 @@ def post(request):
 	global measures,num
 	userprofile = UserProfile.objects.filter(user__username__startswith = "yousuf")[0]
 	stored_measures = userprofile.data #ensure that data field is populated!
+	print(userprofile.age)
 	if request.method == 'POST':
 	    num += 1
 	    print(num)
@@ -92,4 +93,8 @@ def post(request):
 	            except Exception as e:
 	                print(e)
 	entries = len(stored_measures.keys())
-	return render(request, 'post.html',context = {'measures':measures,"stored_measures":stored_measures,"entries":entries})
+	print(type(userprofile.sex))
+	calories = calorie_calc(stored_measures,userprofile.weight,userprofile.height,userprofile.sex)
+	userprofile.calories_burnt = calories
+	userprofile.save()
+	return render(request, 'post.html',context = {'measures':measures,"stored_measures":stored_measures,"entries":entries,"calories":calories})
