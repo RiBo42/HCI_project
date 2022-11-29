@@ -35,10 +35,7 @@ function make_chart(id, data1, data2, canvas, chart_type) {
                         color: "#F7F9F9",
                     }
                 },
-                r: {
-                    beginAtZero: true,
 
-                },
             }
         }
         });
@@ -68,10 +65,6 @@ function make_chart(id, data1, data2, canvas, chart_type) {
                     ticks: {
                         color: "#F7F9F9",
                     }
-                },
-                r: {
-                    beginAtZero: true,
-
                 },
             }
         }
@@ -145,6 +138,48 @@ function make_chart(id, data1, data2, canvas, chart_type) {
     
 // }
 
+function make_radar_chart(id, data, canvas){
+    var ctx = document.getElementById(canvas);
+    if (charts[id] != undefined) {
+        charts[id].destroy();
+    }
+    charts[id] = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: data["labels"],
+            datasets: [
+                data["datasets"][0],
+
+                // label: data["datasets"][0]["label"],
+                // data: data["datasets"][0]["data"],
+                // borderWidth: 2,
+                // backgroundColor: data["datasets"][0]["backgroundColor"]
+                // borderColor: data["datasets"][0]["borderColor"],
+            
+                data["datasets"][1],
+            
+            ],
+
+
+        },
+        options: {
+            scales: {
+                r: {
+                    min: 0,
+                    max: 1.5,
+                    beginAtZero: true,
+                    ticks: {
+                        format: {
+                            style: 'percent',
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+}
+
 
 
 
@@ -167,8 +202,8 @@ function update_chart(id = 0, double = false){
                     response[localStorage.getItem('mode2')],"hb",localStorage.getItem('c_type'));
 
             }
-            
-            make_chart(1,response["radar"],undefined,"radar","radar");
+            make_radar_chart(1, response["radar"], "radar");
+            //make_chart(1,response["radar"],unde,"radar","radar");
         }
         
     });

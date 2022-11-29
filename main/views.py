@@ -24,7 +24,17 @@ measures = {}
 num = 0
 entries = {}
 
-#def filter_datetime(request):
+
+
+
+# Basal metabolic rate for maintenance calorie calculator
+def get_bmr(gender, weight, height, age):
+	if(gender=="Female"):
+		return int(655 + ((4.35 * weight) + (4.7 * height) - (4.7 * age)))/1000
+	else:
+		return int(66 + ((6.3 * weight) + (12.9 * height) - (6.8 * age)))/1000
+
+
 	
 def data_filtration(request):
 	# needs to be currently logged in user
@@ -51,6 +61,20 @@ def data_filtration(request):
 		if(x > startDate and x < endDate):
 			final_labels.append(x)
 
+	# average healthy values
+	user_calories = get_bmr(up.sex,up.weight,up.height,up.age)
+	print(user_calories)
+	borderline_healthy_user_data = [80, 3000, 7, user_calories]
+	# dummy user health below
+	user_health = [73,3287,6,2500]
+	# % of healthy limit the user's data is achieving 
+	user_percentages = [
+		(user_health[0]/80),
+		(user_health[1]/3000),
+		(user_health[2]/7),
+		(user_health[3]/user_calories),
+	]
+
 	# ^^ does nothing rn, just for when I know what to query data-wise, not just date-time wise
 
 	data["heartbeat"] = {
@@ -69,13 +93,17 @@ def data_filtration(request):
 	data["radar"] = {
 			"labels": ['Weight', 'Steps', "Heart rate", "Calories burned"],
             "datasets":[{
-                "label": "Radar",
-                "data": [100,65,80,90],
+                "label": "Your Average Health Data",
+                "data": user_percentages,
                 "backgroundColor": 'rgba(00, 255, 00, 0.1)',
                 "borderColor": 'rgba(00, 255, 00)',
                 "borderWidth": 2,
-
-
+            },{
+                "label": "Healthy Limits",
+                "data": [1,1,1,1],
+                "backgroundColor": 'rgba(255, 00, 00, 0.1)',
+                "borderColor": 'rgba(255, 00, 00)',
+                "borderWidth": 2,
             }]
 
 

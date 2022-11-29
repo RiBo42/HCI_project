@@ -18,7 +18,10 @@ class UserProfile(models.Model):
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
+        
 class PPG(models.Model):
     date = models.DateTimeField('date inserted')
     time_stamp = models.IntegerField(default=0)
     ppg_signal = models.FloatField(default=0.0)
+
+
