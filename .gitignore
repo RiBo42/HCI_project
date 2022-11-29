@@ -3,6 +3,7 @@ pyc
 __pycache__/
 *.key
 thumbs.db
+db.sqlite
 migrations/
 Thumbs.db
 media
