@@ -16,9 +16,33 @@
 <div>
   <a href="/login/">Login</a>
 </div>
-<div>
-  <canvas id="1"></canvas>
+<div class="col-md-6 col-12">
+ <button type="button" id = "Steps" onclick="change_mode(0,'steps')">Steps</button> 
+ <button type="button" id = "Heartbeat" onclick="change_mode(0,'heartbeat')">Heartbeat</button> 
+ <button type="button" id = "Sleep" onclick="change_mode(0,'sleep')">Sleep</button> 
+ <button type="button" id = "Calories" onclick="change_mode(0,'calories')">Calories</button> 
+<div class="box">
+  <canvas id="hb"></canvas>
 </div>
-<input type="text" class="datetimerange"  value="12/31/2017 - 01/31/2018"/>
+<button onclick = "change_type(0,'bar')">Bar chart</button>
+<button onclick = "change_type(0,'line')">Line chart</button>
+<input type="text" class="datetimerange"/>
+</div>
+<div class="col-md-6 col-12">
+<div class="box">
+  <canvas id="radar"></canvas>
+</div>
+<div class="wrapper">
+  <div class="toggle_radio">
+    <input type="radio" class="toggle_option" id="first_toggle" name="toggle_option">
+    <input type="radio" checked class="toggle_option" id="second_toggle" name="toggle_option">
+    <input type="radio" class="toggle_option" id="third_toggle" name="toggle_option">
+    <label for="first_toggle"><p>Daily</p></label>
+    <label for="second_toggle"><p>Weekly</p></label>
+    <label for="third_toggle"><p>Monthly</p></label>
+    <div class="toggle_option_slider">
+    </div>
+  </div>
+</div>
 
 {% endblock content %}
