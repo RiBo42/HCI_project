@@ -25,6 +25,8 @@ num = 0
 entries = {}
 
 
+# should have been an insights template with how the user's data compares to others 
+# and how it increases their risks of various ailments
 def mood(request):
 
 	context = {}
@@ -41,29 +43,47 @@ def get_bmr(gender, weight, height, age):
 		return int(66 + ((6.3 * weight) + (12.9 * height) - (6.8 * age)))
 
 
-	
+# Filter and provide relevant data 
 def data_filtration(request):
 	# needs to be currently logged in user
 	up = UserProfile.objects.filter(user__username__startswith = "yousuf")[0]
 	json_string = json.dumps(up.data)
 	unfiltered_data = json.loads(json_string)
 
-	raw_labels = []
-	raw_data = []
-	final_labels = []
-	data = {}
-
-	for key, value in unfiltered_data.items():
-		raw_labels.append(key.replace("T", " "))
-		raw_data.append(value)
-	labels = [datetime.strptime(x[:-7],"%Y-%m-%d %H:%M") for x in raw_labels][::30]
-
+	# Borders for datetime filtration
 	startDate = datetime.strptime(request.GET.get("begin"), "%Y-%m-%d %H:%M")
 	endDate = datetime.strptime(request.GET.get("end"), "%Y-%m-%d %H:%M")
 
-	for x in labels:
-		if(x > startDate and x < endDate):
-			final_labels.append(x)
+	# lists to be filled
+	raw_labels = []
+	raw_data = []
+	final_labels = []
+	final_data = []
+	data = {}
+
+	# for key, value in unfiltered_data.items():
+	# 	raw_labels.append(key.replace("T", " "))
+	# 	raw_data.append(value)
+
+	for key, value in unfiltered_data.items():
+		key = key.replace("T", " ")
+		key = datetime.strptime(key[:-7],"%Y-%m-%d %H:%M") 
+		if(key > startDate and key < endDate):
+			raw_data.append([key, value["bpm"]])
+
+
+	raw_data = raw_data[::30]
+	print(raw_data)
+	print(up.steps)
+
+	#labels = [datetime.strptime(x[:-7],"%Y-%m-%d %H:%M") for x in raw_labels][::30]
+
+	# for x in labels:
+	# 	if(x > startDate and x < endDate):
+	# 		final_labels.append(x)
+
+	# for x in raw data:
+	# 	final_data.append(x["bpm"])
 
 	# average healthy values
 	user_calories = get_bmr(up.sex,up.weight,up.height,up.age)

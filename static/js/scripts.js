@@ -160,8 +160,6 @@ function make_radar_chart(id, data, canvas){
                 data["datasets"][1],
             
             ],
-
-
         },
         options: {
             plugins: {
