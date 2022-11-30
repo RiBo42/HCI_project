@@ -1,3 +1,63 @@
 html,body{
   background-color: #DFB2F4;
 }
+
+/* Index page */
+.navbar-brand{
+  width: auto;
+  height:100px;
+}
+
+.navbar{
+  background-color: transparent !important;
+}
+
+.nav-link{
+  background-color: #9A4C95;
+  border-radius: 8px;
+}
+
+.writing, .writing:hover{
+  color: white;
+}
+
+.intro-box{
+  width: 100px;
+  height: 50px;
+  background-color: #9A4C95;
+  color: white;
+  position: relative;
+  left: 30px;
+  border-radius: 8px;
+}
+
+.my-mind-text{
+  margin-left: 5px
+}
+
+.exist-box{
+  width: 150px;
+  height: 100px;
+  background-color: #9A4C95;
+  color: white;
+  position: relative;
+  left: 30px;
+  border-radius: 8px;
+}
+
+.sign-up-button{
+  background-color: #9A4C95;
+  color: white;
+  border-radius: 8px;
+  margin: auto;
+}
+
+.card-body{
+  background-color: #DFB2F4 !important;
+  border: 0px !important;
+}
+
+.btn-primary{
+  background-color: #9A4C95;
+  border-radius: 8px;
+}
