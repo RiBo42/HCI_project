@@ -25,14 +25,20 @@ num = 0
 entries = {}
 
 
+def mood(request):
+
+	context = {}
+	return render(request, 'mood.html', context)
+
+
 
 
 # Basal metabolic rate for maintenance calorie calculator
 def get_bmr(gender, weight, height, age):
 	if(gender=="Female"):
-		return int(655 + ((4.35 * weight) + (4.7 * height) - (4.7 * age)))/1000
+		return int(655 + ((4.35 * weight) + (4.7 * height) - (4.7 * age)))
 	else:
-		return int(66 + ((6.3 * weight) + (12.9 * height) - (6.8 * age)))/1000
+		return int(66 + ((6.3 * weight) + (12.9 * height) - (6.8 * age)))
 
 
 	
@@ -54,8 +60,6 @@ def data_filtration(request):
 
 	startDate = datetime.strptime(request.GET.get("begin"), "%Y-%m-%d %H:%M")
 	endDate = datetime.strptime(request.GET.get("end"), "%Y-%m-%d %H:%M")
-	print(labels[0])
-	print(startDate)
 
 	for x in labels:
 		if(x > startDate and x < endDate):
@@ -74,6 +78,7 @@ def data_filtration(request):
 		(user_health[2]/7),
 		(user_health[3]/user_calories),
 	]
+	print(user_percentages[3])
 
 	# ^^ does nothing rn, just for when I know what to query data-wise, not just date-time wise
 
@@ -84,30 +89,32 @@ def data_filtration(request):
                 "data": hb,
                 "backgroundColor": "#FF7F00",
                 "borderColor": "#FF7F00",
-                "pointRadius": 2.5,
+                "pointRadius": 2,
                 "tension": .25,
 
 
             }]
 		}
+
 	data["radar"] = {
-			"labels": ['Weight', 'Steps', "Heart rate", "Calories burned"],
-            "datasets":[{
-                "label": "Your Average Health Data",
-                "data": user_percentages,
-                "backgroundColor": 'rgba(00, 255, 00, 0.1)',
-                "borderColor": 'rgba(00, 255, 00)',
-                "borderWidth": 2,
-            },{
-                "label": "Healthy Limits",
-                "data": [1,1,1,1],
-                "backgroundColor": 'rgba(255, 00, 00, 0.1)',
-                "borderColor": 'rgba(255, 00, 00)',
-                "borderWidth": 2,
-            }]
+				"labels": ['Weight', 'Steps', "Heart rate", "Calories burned"],
+	            "datasets":[{
+	                "label": "Your Average Health Data",
+	                "data": user_percentages,
+	                "backgroundColor": 'rgba(00, 255, 00, 0.1)',
+	                "borderColor": 'rgba(00, 255, 00)',
+	                "borderWidth": 2,
+	            },{
+	                "label": "Healthy Limits",
+	                "data": [1,1,1,1],
+	                "backgroundColor": 'rgba(255, 00, 00, 0.1)',
+	                "borderColor": 'rgba(255, 00, 00)',
+	                "borderWidth": 2,
+	            }]
 
 
-		}
+			}
+	
 	data["steps"] = {
 			"labels": l,
             "datasets":[{
@@ -115,7 +122,7 @@ def data_filtration(request):
                 "data": steps,
                 "backgroundColor": "#FF7F00",
                 "borderColor": "#FF7F00",
-                "pointRadius": 2.5,
+                "pointRadius": 2,
                 "tension": .25,
 
 

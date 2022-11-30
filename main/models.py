@@ -6,14 +6,16 @@ from django.contrib.auth.models import User
 # # Create your models here.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    age = models.SmallIntegerField()
-    height = models.SmallIntegerField()
-    weight = models.SmallIntegerField()
+    age = models.SmallIntegerField(null=True)
+    height = models.SmallIntegerField(null=True)
+    weight = models.SmallIntegerField(null=True)
     Female = 'Female'
     Male = 'Male'
     sex_choices = [(Female, 'Female'),(Male, 'Male')]
-    sex = models.CharField(choices=sex_choices, max_length=7)
+    sex = models.CharField(choices=sex_choices, max_length=7,null=True)
     data = models.JSONField(null=True)
+    steps = models.JSONField(null = True)
+    calories_burnt = models.IntegerField(null=True)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):

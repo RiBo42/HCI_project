@@ -1,8 +1,4 @@
 var charts = [ undefined, undefined, undefined ];
-var steps = document.getElementById("Steps");
-var modes = [undefined, undefined];
-// localStorage.setItem('d1', null);
-// localStorage.setItem('d2', null);
 
 function make_chart(id, data1, data2, canvas, chart_type) {
     var ctx = document.getElementById(canvas);
@@ -79,24 +75,36 @@ function make_chart(id, data1, data2, canvas, chart_type) {
                 yAxisID: 'y',
                 label: data1["datasets"][0]["label"],
                 data: data1["datasets"][0]["data"],
-                borderWidth: 1,
-                backgroundColor: 'blue',
-                borderColor: 'blue',
-                tension: data1["datasets"][0]["tension"]
+                backgroundColor: '#702963',
+                borderColor: '#702963',
+                tension: data1["datasets"][0]["tension"],
+                pointRadius: data1["datasets"][0]["pointRadius"],
+                borderWidth: 3,
     
             },{
                 yAxisID: 'y2',
                 label: data2["datasets"][0]["label"],
                 data: data2["datasets"][0]["data"],
-                borderWidth: 1,
-                backgroundColor: 'green',
-                borderColor: 'green',
+                backgroundColor: '#FF7F00',
+                borderColor: '#FF7F00',
                 tension: data2["datasets"][0]["tension"],
+                pointRadius: data2["datasets"][0]["pointRadius"],
+                borderWidth: 3,
 
                 }],
 
         },
         options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#F7F9F9",
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+            },
             scales: {
                 y: {
                     position: 'left',
@@ -110,7 +118,6 @@ function make_chart(id, data1, data2, canvas, chart_type) {
                     position: 'right',
                     type: 'linear',
                     ticks: {
-
                         color: "#F7F9F9",
                     },
 
@@ -149,12 +156,6 @@ function make_radar_chart(id, data, canvas){
             labels: data["labels"],
             datasets: [
                 data["datasets"][0],
-
-                // label: data["datasets"][0]["label"],
-                // data: data["datasets"][0]["data"],
-                // borderWidth: 2,
-                // backgroundColor: data["datasets"][0]["backgroundColor"]
-                // borderColor: data["datasets"][0]["borderColor"],
             
                 data["datasets"][1],
             
@@ -163,12 +164,24 @@ function make_radar_chart(id, data, canvas){
 
         },
         options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#F7F9F9",
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+            },
             scales: {
                 r: {
                     min: 0,
                     max: 1.5,
                     beginAtZero: true,
                     ticks: {
+                        color: "#F7F9F9",
+                        backdropColor: "#424242", 
                         format: {
                             style: 'percent',
                         }
@@ -208,6 +221,8 @@ function update_chart(id = 0, double = false){
         
     });
 }
+
+
 
 function change_mode(id = 0, mode){
     if(mode == localStorage.getItem('mode1')){
