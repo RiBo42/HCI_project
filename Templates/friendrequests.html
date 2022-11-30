@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+{% load static %}
+{%block content%}
+{% load crispy_forms_tags %}
+
+<title>MyMind</title>
+
+<!-- Jumbotron -->
+<div class="p-5 text-center banner-bg" style="margin-top: 58px;">
+  <h1 class="mb-3">Friend Requests</h1>
+</div>
+<!-- Jumbotron -->
+<br>
+
+<!--- friend request --->
+<div class="container">
+  <div class="col-lg mb-4">
+      <div class="card">
+          <div class="card-body friend-button">
+              <p>Christa Awa Kollen
+              <button type="button" class="btn add btn-primary btn-lg">+</button></p>
+            </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}

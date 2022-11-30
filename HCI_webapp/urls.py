@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from main.views import index
 from main import views
+from main.views import TodayPageView, AllStatsPageView, FriendsPageView, FriendRequestsView, SettingsView
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
@@ -30,4 +31,9 @@ urlpatterns = [
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('hello/', views.HelloView.as_view(), name='hello'),
     path('user/<slug:username>',views.user, name = 'user'),
+    path('today', TodayPageView.as_view(), name='today'),
+    path('allstats', AllStatsPageView.as_view(), name='allstats'),
+    path('friends', FriendsPageView.as_view(), name= 'friends'),
+    path('friendrequests', FriendRequestsView.as_view(), name='friendrequests'),
+    path('settings', SettingsView.as_view(),name='settings'),
 ]

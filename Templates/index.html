@@ -1,40 +1,65 @@
-{% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block header %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 {% endblock header %}
 
 {% block content %}
+<html>
+<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg nav-bg static-top">
+	  <div class="container">
+	    <a class="navbar-brand" href="{% url 'index' %}">
+	      <img src="{% static 'images/logo.png'%}" alt="MyMind logo" height="40px">
+	    </a>
+			<button type="button" class="btn login-button btn-secondary" href="{% url 'login' %}">Login</button>
+	  </div>
+	</nav>
+	<!-- Navigation -->
 
+	<!---- main body ---->
+	<body>
 
-<!--- navbar -->
-<!--
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="/login/">
-    <img src="{% static 'images/logo.png'%}" width="30" height="30" alt="MyMind logo">
-  </a>
-</nav> -->
+	<!--- info cards -->
+		<div class="row">
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title my-mind-text">We are my mind</h5>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-6">
+		    <div class="card">
+		      <div class="card-body">
+		        <h5 class="card-title my-mind-text">We exist to help you track your smartwatch data against your mood</h5>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	<!--- info cards -->
 
+	<!--- sign up button -->
+	<br>
 
-<nav class="navbar navbar-light bg-light justify-content-between">
-	<a href= "{% url 'index' %}">
-  <img class= "navbar-brand" src="{% static 'images/logo.png'%}" width="30" height="30" alt="MyMind logo">
-	</a>
-	<a class="nav-link active writing" id="tab-login" data-mdb-toggle="pill" href="{% url 'login' %}" role="tab"
-      aria-controls="pills-login" aria-selected="true">Login</a>
-</nav>
+	<!--- sign up button -->
+		<div class="sign-up-button">
+			<button type="button" class="btn login-button btn-secondary" href="{% url 'register' %}">Sign up</button>
+		</div>
 
-<div class="intro-box">
-	<p class= "my-mind-text">We are my mind</p>
-</div>
-
-<div class="exist-box">
-	<p class= "my-mind-text">We exist to help you track your smartwatch data against your mood </p>
-</div>
-
-<div class ="sign-up-button">
-	<button href="{% url 'register' %}" type="button">Sign up</button>
-</div>
-
-
+	</body>
+<!---- main body ---->
+</html>
 {% endblock content %}

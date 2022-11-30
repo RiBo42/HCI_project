@@ -1,22 +1,11 @@
-html,body{
+/* html,body{
   background-color: #DFB2F4;
-}
+} */
 
 /* Index page */
-.navbar-brand{
-  width: auto;
-  height:100px;
+body{
+  background-color: #DFB2F4 !important;
 }
-
-.navbar{
-  background-color: transparent !important;
-}
-
-.nav-link{
-  background-color: #9A4C95;
-  border-radius: 8px;
-}
-
 .writing, .writing:hover{
   color: white;
 }
@@ -45,19 +34,172 @@ html,body{
   border-radius: 8px;
 }
 
-.sign-up-button{
+/* .sign-up-button{
   background-color: #9A4C95;
   color: white;
   border-radius: 8px;
   margin: auto;
-}
+} */
 
 .card-body{
-  background-color: #DFB2F4 !important;
+  background-color: #9A4C95 !important;
   border: 0px !important;
 }
 
-.btn-primary{
-  background-color: #9A4C95;
+.sign-up-button{
+  margin:0 auto;
+  text-align: center;
+}
+.card{
+  background-color: #9A4C95 !important;
   border-radius: 8px;
+  color: white;
+  align-items: center;
+
+}
+
+
+.btn-primary{
+  background-color: #9A4C95 !important;
+  border-radius: 8px;
+}
+
+.color {
+  background: #DFB2F4 !important;
+}
+
+.login-button{
+  background-color: #9A4C95 !important;
+  border-radius: 8px !important;
+}
+
+
+.sign{
+  color: white !important;
+  text-align: center;
+  background-color: #9A4C95 !important;
+}
+
+.page{
+  background-color: #DFB2F4;
+}
+
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #9A4C95;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #9A4C95;
+  cursor: pointer;
+}
+
+.parent {
+  text-align: center;
+}
+.child {
+  display: inline-block;
+  border: 1px solid red;
+  padding: 1rem 1rem;
+  vertical-align: middle;
+}
+
+.card-body-advice{
+  background-color: #9A4C95 !important;
+  color: white;
+}
+
+.banner-bg{
+  background-color: #9A4C95 !important;
+  color: white;
+}
+
+.fr-button{
+  background-color: #9A4C95 !important;
+  color: white;
+  border-radius: 8px !important;
+}
+
+.friend-button{
+  background-color: #C1B7ED !important;
+  color: black;
+  border-radius: 8px !important;
+}
+
+.add{
+  background-color: #9A4C95 !important;
+  color: black;
+}
+
+.nav-bg{
+  background-color: #DFB2F4 !important;
+}
+
+.login-header{
+  color: white;
+  background-color: #9A4C95 !important;
+  text-align: center;
+}
+
+
+.card-title{
+  text-align: center;
+}
+
+/* progressbar */
+@keyframes growProgressBar {
+  0%, 33% { --pgPercentage: 0; }
+  100% { --pgPercentage: var(--value); }
+}
+
+@property --pgPercentage {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+div[role="progressbar"] {
+  --size: 12rem;
+  --fg: #369;
+  --bg: #def;
+  --pgPercentage: var(--value);
+  animation: growProgressBar 3s 1 forwards;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(closest-side, white 80%, transparent 0 99.9%, white 0),
+    conic-gradient(var(--fg) calc(var(--pgPercentage) * 1%), var(--bg) 0)
+    ;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: calc(var(--size) / 5);
+  color: var(--fg);
+}
+
+div[role="progressbar"]::before {
+  counter-reset: percentage var(--value);
+  content: counter(percentage) '%';
 }

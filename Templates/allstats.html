@@ -1,0 +1,98 @@
+{% extends 'base.html'%}
+{% load static %}
+{%block content%}
+{% load crispy_forms_tags %}
+
+<title>MyMind</title>
+
+
+<!-- header -->
+<h1 class="login-header"> All Stats </h1>
+<!-- header -->
+
+
+<!--- Buttons -->
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <button class="btn btn-primary btn-md">Steps</button>
+        <button class="btn btn-danger btn-md">BPM</button>
+        <button class="btn btn-primary btn-md">Kcal</button>
+        <button class="btn btn-danger btn-md">Sleep</button>
+     </div>
+</div>
+<!--- Buttons -->
+
+<!--- Graphs -->
+<div class="card">
+  <div class="card-body">
+    <img class="card-img-top" src="{% static 'images/graph.webp'%}" alt="graph">
+  </div>
+</div>
+
+<!--- Graphs -->
+
+<!--- Time range --->
+<div class="card bg-light mb-3">
+  <div class="card-body">
+    <label for="customRange2" class="form-label">Time range</label>
+    <input type="range" class="slider form-range" min="0" max="2" id="customRange2">
+  </div>
+  <div class="card-body">
+    <label for="customRange2" class="form-label">Graph type</label>
+    <input type="range" class="slider form-range" min="0" max="1" id="customRange2">
+  </div>
+</div>
+<!--- Time range --->
+
+<!-- Jumbotron -->
+<div class="p-5 text-center banner-bg" style="margin-top: 58px;">
+  <h1 class="mb-3">Data Radar</h1>
+</div>
+<!-- Jumbotron -->
+
+<!--- Radar -->
+<div class="card">
+  <div class="card-body">
+    <img class="card-img-top" src="{% static 'images/radar.png'%}" alt="graph">
+  </div>
+</div>
+
+<!--- Radar -->
+
+<!-- Jumbotron -->
+<div class="p-5 text-center banner-bg" style="margin-top: 58px;">
+</div>
+<!-- Jumbotron -->
+
+<div class="parent">
+  <div class="child col-lg text-center">Steps</div>
+  <button type="button" class="child btn btn-danger">Low</button>
+</div>
+
+<div class="parent">
+  <div class="child col-lg text-center">Sleep</div>
+  <button type="button" class="child btn btn-danger">Low</button>
+</div>
+
+<div class="parent">
+  <div class="child col-lg text-center">Heart rate</div>
+  <button type="button" class="child btn btn-danger">Low</button>
+</div>
+
+<div class="parent">
+  <div class="child col-lg text-center">Calories burnt</div>
+  <button type="button" class="child btn btn-danger">Low</button>
+</div>
+
+<br>
+
+<div class="card">
+  <div class="card-body-advice">
+    <p class="card-text text-center">Lack of sleep and exercise can cause feelings of anxiety and depression.</p>
+    <p class="card-text text-center"> Try a wind-down routine before bed and take some melatonin if necessary</p>
+  </div>
+</div>
+
+<br>
+
+{% endblock %}

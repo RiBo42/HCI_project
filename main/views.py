@@ -11,6 +11,7 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django.views.generic import TemplateView
 import csv
 
 ppg_data = deque()
@@ -124,3 +125,19 @@ def post(request):
 def user(request,username):
 	userprofile = UserProfile.objects.filter(user__username__startswith = username)[0]
 	return render(request, 'user.html', context = {"userprofile":userprofile,})
+
+class TodayPageView(TemplateView):
+    template_name = "today.html"
+
+
+class AllStatsPageView(TemplateView):
+    template_name = "allstats.html"
+
+class FriendsPageView(TemplateView):
+    template_name = 'friends.html'
+
+class FriendRequestsView(TemplateView):
+    template_name = 'friendrequests.html'
+
+class SettingsView(TemplateView):
+    template_name = 'settings.html'
