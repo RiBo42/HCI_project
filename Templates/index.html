@@ -24,7 +24,7 @@
 	    <a class="navbar-brand" href="{% url 'index' %}">
 	      <img src="{% static 'images/logo.png'%}" alt="MyMind logo" height="40px">
 	    </a>
-			<button type="button" class="btn login-button btn-secondary" href="{% url 'login' %}">Login</button>
+			<button type="button" class="btn login-button btn-secondary" ><a href="{% url 'login' %}">Login</a></button>
 	  </div>
 	</nav>
 	<!-- Navigation -->
@@ -56,7 +56,7 @@
 
 	<!--- sign up button -->
 		<div class="sign-up-button">
-			<button type="button" class="btn login-button btn-secondary" href="{% url 'register' %}">Sign up</button>
+			<button type="button" class="btn login-button btn-secondary"><a href="{% url 'register' %}">Sign up</a></button>
 		</div>
 
 	</body>

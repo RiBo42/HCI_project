@@ -4,11 +4,9 @@
 {% load static %}
 
  <title>Register</title>
- <!-- Jumbotron -->
-   <div class="p-5 text-center bg-light" style="margin-top: 58px;">
-     <h1 class="mb-3">Sign up </h1>
-   </div>
-   <!-- Jumbotron -->
+ <!-- header -->
+ <h1 class="login-header"> Sign up </h1>
+ <!-- header -->
       <form method="post" action="{% url 'today' %}"
               enctype="multipart/form-data">
 
@@ -21,7 +19,9 @@
           {{ profile_form|crispy }}
 
           <!-- Provide a button to click to submit the form. -->
-          <input type="submit" name="submit" value="Register" />
+          <div class="sign-up-button">
+            <button type="button" class="btn login-button btn-secondary"><a href="{% url 'login' %}">Sign up</button>
+          </div>
       </form>
     </div>
 {% endblock %}

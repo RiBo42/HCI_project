@@ -6,6 +6,9 @@
 body{
   background-color: #DFB2F4 !important;
 }
+a{
+  color: white;
+}
 .writing, .writing:hover{
   color: white;
 }
@@ -58,6 +61,9 @@ body{
 
 }
 
+.card-2{
+  background-color: #D9D9D9 !important;
+}
 
 .btn-primary{
   background-color: #9A4C95 !important;
@@ -134,6 +140,7 @@ body{
   background-color: #9A4C95 !important;
   color: white;
 }
+
 
 .fr-button{
   background-color: #9A4C95 !important;
