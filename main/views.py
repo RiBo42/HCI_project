@@ -24,6 +24,11 @@ measures = {}
 num = 0
 entries = {}
 
+def Average(l):
+	if(len(l) != 0):
+		return sum(l) / len(l)
+	else:
+		return None
 
 # should have been an insights template with how the user's data compares to others 
 # and how it increases their risks of various ailments
@@ -49,10 +54,11 @@ def data_filtration(request):
 	up = UserProfile.objects.filter(user__username__startswith = "yousuf")[0]
 	json_string = json.dumps(up.data)
 	unfiltered_data = json.loads(json_string)
+	#print(unfiltered_data)
 
 	# Borders for datetime filtration
-	startDate = datetime.strptime(request.GET.get("begin"), "%Y-%m-%d %H:%M")
-	endDate = datetime.strptime(request.GET.get("end"), "%Y-%m-%d %H:%M")
+	startDate = datetime.strptime(request.GET.get( 	"begin"), "%d/%m/%Y %H:%M")
+	endDate = datetime.strptime(request.GET.get("end"), "%d/%m/%Y %H:%M")
 
 	# lists to be filled
 	raw_labels = []
@@ -60,21 +66,33 @@ def data_filtration(request):
 	final_labels = []
 	final_data = []
 	data = {}
+	heartbeat = []
+	steps = []
+	sleep = []
+	calories = []
+	user_percentages = None
+
 
 	# for key, value in unfiltered_data.items():
 	# 	raw_labels.append(key.replace("T", " "))
 	# 	raw_data.append(value)
 
 	for key, value in unfiltered_data.items():
-		key = key.replace("T", " ")
-		key = datetime.strptime(key[:-7],"%Y-%m-%d %H:%M") 
+		#key = key.replace("T", " ")
+		key = datetime.strptime(key,"%d/%m/%Y") 
 		if(key > startDate and key < endDate):
-			raw_data.append([key, value["bpm"]])
+			print(key)
+
+			heartbeat.append(value["avg_bpm"])
+			steps.append(value["steps"])
+			sleep.append(value["Sleep"])
+			calories.append(value["calories"])
+
+			#raw_data.append([value["avg_bpm"], value["steps"],	value["Sleep"], value["calories"]])
+			final_labels.append(key)
 
 
-	raw_data = raw_data[::30]
-	print(raw_data)
-	print(up.steps)
+	#raw_data = raw_data[::30]
 
 	#labels = [datetime.strptime(x[:-7],"%Y-%m-%d %H:%M") for x in raw_labels][::30]
 
@@ -87,26 +105,27 @@ def data_filtration(request):
 
 	# average healthy values
 	user_calories = get_bmr(up.sex,up.weight,up.height,up.age)
-	print(user_calories)
-	borderline_healthy_user_data = [80, 3000, 7, user_calories]
+	
 	# dummy user health below
-	user_health = [73,3287,6,2500]
-	# % of healthy limit the user's data is achieving 
-	user_percentages = [
+	user_health = [Average(heartbeat),Average(steps),Average(sleep),Average(calories)]
+	if(user_health[0] == None):
+		pass
+	else:
+		user_percentages = [
 		(user_health[0]/80),
 		(user_health[1]/3000),
 		(user_health[2]/7),
 		(user_health[3]/user_calories),
 	]
-	print(user_percentages[3])
 
-	# ^^ does nothing rn, just for when I know what to query data-wise, not just date-time wise
+	# % of healthy limit the user's data is achieving 
+	
 
 	data["heartbeat"] = {
-			"labels": l,
+			"labels": final_labels,
             "datasets":[{
                 "label": "Heartbeat",
-                "data": hb,
+                "data": heartbeat,
                 "backgroundColor": "#FF7F00",
                 "borderColor": "#FF7F00",
                 "pointRadius": 2,
@@ -117,7 +136,7 @@ def data_filtration(request):
 		}
 
 	data["radar"] = {
-				"labels": ['Weight', 'Steps', "Heart rate", "Calories burned"],
+				"labels": ['Heart rate', 'Steps', "Sleep", "Calories burned"],
 	            "datasets":[{
 	                "label": "Your Average Health Data",
 	                "data": user_percentages,
@@ -136,10 +155,38 @@ def data_filtration(request):
 			}
 	
 	data["steps"] = {
-			"labels": l,
+			"labels": final_labels,
             "datasets":[{
                 "label": "Steps",
                 "data": steps,
+                "backgroundColor": "#FF7F00",
+                "borderColor": "#FF7F00",
+                "pointRadius": 2,
+                "tension": .25,
+
+
+            }]
+		}
+
+	data["sleep"] = {
+			"labels": final_labels,
+            "datasets":[{
+                "label": "Sleep",
+                "data": sleep,
+                "backgroundColor": "#FF7F00",
+                "borderColor": "#FF7F00",
+                "pointRadius": 2,
+                "tension": .25,
+
+
+            }]
+		}
+
+	data["calories"] = {
+			"labels": final_labels,
+            "datasets":[{
+                "label": "Calories burned",
+                "data": calories,
                 "backgroundColor": "#FF7F00",
                 "borderColor": "#FF7F00",
                 "pointRadius": 2,

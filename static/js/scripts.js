@@ -201,8 +201,8 @@ function update_chart(id = 0, double = false){
     $.ajax({
         url: "/filter/",
         data: jQuery.param({
-            begin: range.startDate.format('YYYY-MM-DD HH:MM'),
-            end: range.endDate.format('YYYY-MM-DD HH:MM'),
+            begin: range.startDate.format("DD/MM/YYYY HH:MM"),
+            end: range.endDate.format("DD/MM/YYYY HH:MM"),
         }),
         success: function(response) {
             if(localStorage.getItem('c_type') == null){
@@ -240,7 +240,7 @@ function change_mode(id = 0, mode){
     }
     else {
         console.log("model12 is not null")
-        localStorage.removeItem('mode2');
+        localStorage.setItem('mode2', mode);
     }
     update_chart();
 
@@ -264,8 +264,8 @@ $(function() {
         timePickerIncrement: 30,
         locale: {
             //format: 'MM/DD/YYYY h:mm A'
-            format: "YYYY-MM-DD HH:MM"
-        }
+            format: "DD/MM/YYYY HH:MM",
+        },
     });
     $('.datetimerange').on('apply.daterangepicker', function(ev,picker){
         update_chart(0);

@@ -7,7 +7,7 @@ from collections import deque
 from django.utils import timezone
 import sqlite3
 from .models import PPG
-
+import datetime
 con = sqlite3.connect("db.sqlite3")
 cur = con.cursor()
 
@@ -15,6 +15,21 @@ cur = con.cursor()
 # SAMPLING_RATE = 1e9
 # INTERVAL = 1 / SAMPLING_RATE * 1e9
 
+def get_date(time_stamp):
+    t = time_stamp.index("T")
+    my_time = time_stamp[t+1:-1]
+    my_time_list = my_time.split(':')
+    my_date = time_stamp[0:t]
+    my_date_list = my_date.split('-')
+    current_date = datetime.datetime(int(my_date_list[0]),int(my_date_list[1]),int(my_date_list[2]),int(my_time_list[0]),int(my_time_list[1]),int(float(my_time_list[2])))
+    return current_date
+def get_minutes(time_stamps):
+
+    d1 = get_date(time_stamps[0])
+    d2 = get_date(time_stamps[1])
+    tdelta = d2-d1
+    mins = tdelta.total_seconds()/60
+    return mins
 
 def csv_data_loader(file, data_queue):
     data = pd.read_csv(file)
@@ -69,6 +84,22 @@ def hrv_generator(measures, signal, sampling_rate=100):
         # print(ppg_clean)
         working_data, measures = hp.process(ppg_clean, sampling_rate, calc_freq=True)
     return working_data, measures
+
+def calorie_calc(arr,kg,age,sex):
+    bpm = 0.0
+    sex = sex.lower()
+    sexes = {'male':[0.6309,0.1988,0.2017,55.0969,4.184],'female':[0.4472,-0.1263,0.074,20.4022,4.184]}
+    count = len(arr.keys())
+    my_time_stamps = []
+    arr_keys = list(arr.keys())
+    my_time_stamps.append(arr_keys[0])
+    my_time_stamps.append(arr_keys[-1])
+    for entry in arr_keys:
+        bpm+=arr[entry]['bpm']
+    avg_bpm = bpm/count
+    time = get_minutes(my_time_stamps)
+    calories_burnt = time*(sexes[sex][0]*avg_bpm +sexes[sex][1]*kg+sexes[sex][2]*age - sexes[sex][2])/sexes[sex][3]
+    return calories_burnt
 
 
 if __name__ == "__main__":
