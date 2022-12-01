@@ -209,4 +209,35 @@ div[role="progressbar"] {
 div[role="progressbar"]::before {
   counter-reset: percentage var(--value);
   content: counter(percentage) '%';
+.box {
+  border-radius: 2px;
+  background-color: #424242;
+  box-sizing: border-box;
+  border: 1px solid white;
+  padding: 1em;
+  margin: 10px;
+  flex: calc(50% - 20px);       /* Need to manually substract margin */
+}
+
+#wrap {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+canvas {
+  width: 100% !important;
+}
+
+@media only screen and (max-width: 1200px) {
+  .box {
+    flex: 100%;                 /* Let boxes span all of small screens */
+  }
+}
+
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+*{
+  margin:0px;
+  padding:0px;
 }

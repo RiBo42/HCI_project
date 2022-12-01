@@ -37,4 +37,8 @@ urlpatterns = [
     path('user/<slug:username>/friends', views.friends, name= 'friends'),
     path('user/<slug:username>/friendrequests', views.friend_requests, name='friendrequests'),
     path('user/<slug:username>/settings', views.settings,name='settings'),
+    path('post/',views.post,name='post'),   
+    path("filter/", views.data_filtration, name="filter"),   
+    path('mood/',views.mood,name='mood'),   
+
 ]
