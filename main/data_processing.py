@@ -29,7 +29,8 @@ def get_minutes(time_stamps):
     d2 = get_date(time_stamps[1])
     tdelta = d2-d1
     mins = tdelta.total_seconds()/60
-    return mins
+    #print("Date 1",str(d1.replace(" ",",")))
+    return [mins,d1,d2]
 
 def csv_data_loader(file, data_queue):
     data = pd.read_csv(file)
@@ -97,9 +98,12 @@ def calorie_calc(arr,kg,age,sex):
     for entry in arr_keys:
         bpm+=arr[entry]['bpm']
     avg_bpm = bpm/count
-    time = get_minutes(my_time_stamps)
+    time_arr = get_minutes(my_time_stamps)
+    time = time_arr[0]
+    d1 = time_arr[1]
+    d2 = time_arr[2]
     calories_burnt = time*(sexes[sex][0]*avg_bpm +sexes[sex][1]*kg+sexes[sex][2]*age - sexes[sex][2])/sexes[sex][3]
-    return calories_burnt
+    return {time:calories_burnt}
 
 
 if __name__ == "__main__":

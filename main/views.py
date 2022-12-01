@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.views.generic import TemplateView
 import csv
+from django.forms.models import model_to_dict
 
 ppg_data = deque()
 ppg = []
@@ -46,7 +47,8 @@ def register(request):
 			# Now we save the UserProfile model instance.
 			profile.save()
 
-			# Update our variable to tell the template registration was successful.
+			# Update our variable to tell the template registration was success
+			# ful.
 			registered = True
 
 		# Invalid form or forms - mistakes or something else?
@@ -90,33 +92,28 @@ def user_logout(request):
 def post(request):
 	global ppg_data, ppg, sampling_rate
 	global measures,num
-	userprofile = UserProfile.objects.filter(user__username__startswith = "yousuf")[0]
+	#userprofile = UserProfile.objects.filter(user__username__startswith = "yousuf")[0]
 	stored_measures = userprofile.data #ensure that data field is populated!
 	if request.method == 'POST':
 		num += 1
 		print(num)
 		data = json.loads(request.body)
 		if len(data):
-			with open('innovators.csv', 'w', newline='') as file:
-				writer = csv.writer(file)
-				time = data['time']
-				ppg_data = enqueue(ppg_data, data)
-				sampling_rate, ppg, ppg_data = get_ppg(ppg_data, 60)
-				working_data, measures = hrv_generator(measures, ppg, sampling_rate)
-				if len(ppg) and len(measures):
-					print("SUCCESS!")
-					try:
-						s_measures = {}
-						s_measures[time] = measures
-						writer.writerow(s_measures)
-						stored_measures[time] = measures
-						userprofile.data = dict(stored_measures)
-						userprofile.save()
+			writer = csv.writer(file)
+			time = data['time']
+			ppg_data = enqueue(ppg_data, data)
+			sampling_rate, ppg, ppg_data = get_ppg(ppg_data, 60)
+			working_data, measures = hrv_generator(measures, ppg, sampling_rate)
+			if len(ppg) and len(measures):
+				print("SUCCESS!")
+				try:
+					stored_measures[time] = measures
+					userprofile.data = dict(stored_measures)
+					userprofile.save()
 
-					except Exception as e:
-						print(e)
+				except Exception as e:
+					print(e)
 	entries = len(stored_measures.keys())
-	print(type(userprofile.sex))
 	calories = calorie_calc(stored_measures,userprofile.weight,userprofile.height,userprofile.sex)
 	userprofile.calories_burnt = calories
 	userprofile.save()
@@ -124,20 +121,87 @@ def post(request):
 
 def user(request,username):
 	userprofile = UserProfile.objects.filter(user__username__startswith = username)[0]
-	return render(request, 'user.html', context = {"userprofile":userprofile,})
+	sleep = userprofile.data["01/01/2022"]['Sleep']
+	calories = userprofile.data["01/01/2022"]['calories']
+	steps = userprofile.data["01/01/2022"]['steps']
+	heart_24 = userprofile.data["01/01/2022"]['24hr_heart']
+	bpm = userprofile.data["01/01/2022"]['avg_bpm']
+	print(bpm)
+	return render(request, 'user.html', context = {"userprofile":userprofile,"sleep":sleep,'steps':steps,'heart_24':heart_24,'bpm':bpm,'calories':calories})
 
-class TodayPageView(TemplateView):
-    template_name = "today.html"
 
 
-class AllStatsPageView(TemplateView):
-    template_name = "allstats.html"
 
-class FriendsPageView(TemplateView):
-    template_name = 'friends.html'
+def all_stats(request, username):
+	return render(request, 'allstats.html', context = {})
 
-class FriendRequestsView(TemplateView):
-    template_name = 'friendrequests.html'
+def friends(request, username):
+	userprofile = UserProfile.objects.filter(user__username__startswith = username)[0]
+	friends = userprofile.friends
+	friends_list = []
+	for f in list(friends.keys()):
+		friends_list.append(UserProfile.objects.filter(user__username__startswith = f)[0])
+	friends = friends_list
+	return render(request, 'friends.html', context = {'friends':friends})
 
-class SettingsView(TemplateView):
-    template_name = 'settings.html'
+def friend_requests(request, username):
+	userprofile = UserProfile.objects.filter(user__username__startswith = username)[0]
+	friend_requests = userprofile.friend_requests
+	return render(request, 'friendrequests.html', context = {"friend_requests":friend_requests})
+
+def settings(request, username):
+	return render(request, 'settings.html', context = {})
+def add_friend(request, username,friend):
+	userprofile = UserProfile.objects.filter(user__username__startswith = username)[0]
+	friend_profile = UserProfile.objects.filter(user__username__startswith = friend)[0]
+	friends = userprofile.friends
+	friends_list = []
+	for f in list(friends.keys()):
+		friends_list.append(UserProfile.objects.filter(user__username__startswith = f)[0])
+	friends = friends_list
+	user_username = userprofile.user.username
+	friend_username = friend_profile.user.username
+	sent_requests = userprofile.sent_requests
+	sent_requests[friend_username] = friend_username
+	userprofile.sent_requests = dict(sent_requests)
+	userprofile.save()
+	friend_requests = friend_profile.friend_requests
+	friend_requests[user_username] = user_username
+	friend_profile.friend_requests = friend_requests
+	friend_profile.save()
+	return render(request, 'friends.html',context = {'friends':friends})
+def search_results(request, username):
+	userprofile = UserProfile.objects.filter(user__username__startswith = username)[0]
+	ref = request.headers['Referer']
+	search = request.GET['q']
+	results = UserProfile.objects.filter(user__username__startswith = search).exclude(user__username__startswith=username)
+	friends = userprofile.friends
+	friends_list = []
+	for f in list(friends.keys()):
+		friends_list.append(UserProfile.objects.filter(user__username__startswith = f)[0])
+	friends = friends_list
+	sent_requests = list(userprofile.sent_requests.keys())
+	friend_requests = list(userprofile.friend_requests.keys())
+	print(sent_requests)
+	return render(request, 'friends.html',context = {'results':results,'friends':friends, 'sent_requests':sent_requests,'friend_requests':friend_requests})
+def confirm_request(request, username, friend):
+	userprofile = UserProfile.objects.filter(user__username__startswith = username)[0]
+	friend_profile = UserProfile.objects.filter(user__username__startswith = friend)[0]
+	friends = userprofile.friends
+	friend_friends = friend_profile.friends
+	user_username = userprofile.user.username
+	friend_username = friend_profile.user.username
+	friends[friend_username] = friend_username
+	userprofile.friends = friends
+	userprofile.friend_requests.pop(friend_username)
+	friend_requests = userprofile.friend_requests
+	userprofile.save()
+	friend_friends[user_username] = user_username
+	friend_profile.sent_requests.pop(user_username)
+	friend_profile.friends = friend_friends
+	friend_profile.save()
+	friends_list = []
+	for f in list(friends.keys()):
+		friends_list.append(UserProfile.objects.filter(user__username__startswith = f)[0])
+	friends = friends_list
+	return render(request, 'friends.html',context = {'friend_requests':friend_requests})

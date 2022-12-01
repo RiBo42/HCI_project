@@ -44,10 +44,10 @@
 	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 		<div class="navbar-nav">
 			<a class="nav-item nav-link active" href="{% url 'logout' %}">Log out <span class="sr-only">(current)</span></a>
-			<a class="nav-item nav-link" href="{% url 'today' %}">Today</a>
-			<a class="nav-item nav-link" href="{% url 'allstats' %}">All stats</a>
-			<a class="nav-item nav-link" href="{% url 'friends' %}">Friends</a>
-			<a class="nav-item nav-link" href="{% url 'settings' %}">Settings</a>
+			<a class="nav-item nav-link" href="{% url 'user' user.username %}">Account</a>
+			<a class="nav-item nav-link" href="{% url 'allstats' user.username %}">All stats</a>
+			<a class="nav-item nav-link" href="{% url 'friends' user.username %}">Friends</a>
+			<a class="nav-item nav-link" href="{% url 'settings' user.username %}">Settings</a>
 	</div>
 </div>
 </nav>

@@ -11,13 +11,20 @@
 <br>
 
 <!--- friend request --->
-<div class="container">
-  <div class="col-lg mb-4">
-          <div class="center2 card-body friend-button">
-              <p>Christa Awa Kollen
-              <button type="button" class="btn add btn-primary btn-lg">+</button></p>
+{% if friend_requests %}
+  {% for f_request in friend_requests %}
+    <div class="col-lg mb-4">
+        <div class="card2">
+            <div class="card-body friend-button">
+                <form action="{% url 'confirm_request' user.username f_request %}" method="get">
+                  <button type="submit" class="btn add btn-primary btn-lg" >+</button><p>{{ f_request }}</p>
+                </form>
             </div>
-      </div>
-</div>
+        </div>
+    </div>
+  {% endfor %}
 
+{% else %}
+<p>No more pending requests!</p>
+{% endif %}
 {% endblock %}

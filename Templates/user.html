@@ -4,6 +4,55 @@
   <h3>Welcome, {{userprofile.user}}</h3>
   <a href="{% url 'index' %}">Home</a>
 
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-4 mb-4">
+              <div class="card">
+                  <img class="card-img-top" src="" alt="">
+                  <div class="card-body">
+                      <h5 class="card-title">{{steps}}</h5>
+                          <i class="far fa-heart"></i></a>
+                            <div role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="--value:65"></div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-4 mb-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">{{bpm}}</h5>
+                          <i class="far fa-heart"></i></a>
+                          <img class="card-img-top" src="{% static 'images/purple_heart.gif'%}" alt="purple heart">
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-4 mb-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">{{calories}}</h5>
+                          <img class="card-img-top" src="{% static 'images/donut.png'%}" alt="donut emoji">
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-4 mb-4">
+              <div class="card">
+
+
+                  <div class="card-body">
+                      <h5 class="card-title">{{sleep}}</h5>
+                          <i class="far fa-heart"></i></a>
+                          <img class="card-img-top" src="{% static 'images/sleep.png'%}" alt="sleep emoji">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
 
 

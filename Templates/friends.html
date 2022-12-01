@@ -11,55 +11,52 @@
 <br>
 
 <!--- Search --->
-<div class="input-group rounded">
-  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-  <span class="input-group-text border-0" id="search-addon">
-    <i class="fas fa-search"></i>
-  </span>
-</div>
+<form action="{% url 'search_results' user.username %}" method="get">
+  <input name="q" type="text" placeholder="Search...">
+</form>
 <!--- Search --->
 
 <!--- friends names --->
+{% if friends %}
+  {% for friend in friends %}
+    <div class="col-lg mb-4">
+        <div class="card2">
+            <div class="card-body friend-button">
+                <p>{{ friend.user }}</p>
+            </div>
+        </div>
+    </div>
+  {% endfor %}
+{% endif %}
 <div class="col-lg mb-4">
     <div class="card">
-      <a href= "{% url 'friendrequests' %}"/>
         <div class="card-body fr-button">
-            <p>Friend Request</p>
+            <p><a href= "{% url 'friendrequests' user.username %}">Friend Request</a></p>
         </div>
     </div>
 </div>
+{% if results %}
+  {% for result in results %}
+    <div class="col-lg mb-4">
+        <div class="card2">
+            <div class="card-body friend-button">
+              {% if result.user.username in sent_requests or result.user.username in friends %}
+                <p>{{ result.user }}</p>
+              {% else %}
+                <form action="{% url 'add_friend' user.username result.user %}" method="get">
+                  <button type="submit" class="btn add btn-primary btn-lg" >+</button><p>{{ result.user }}</p>
+                </form>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+  {% endfor %}
 
-<div class="col-lg mb-4">
-    <div class="card2">
-        <div class="card-body friend-button">
-            <p>Emily Sande</p>
-        </div>
-    </div>
-</div>
+{% else %}
+<p>Your search has yielded no results unfortunately :(. Search again?</p>
+{% endif %}
 
-<div class="col-lg mb-4">
-    <div class="card2">
-        <div class="card-body friend-button">
-            <p>Elif Shafak</p>
-        </div>
-    </div>
-</div>
 
-<div class="col-lg mb-4">
-    <div class="card2">
-        <div class="card-body friend-button">
-            <p>Karlo Olalla</p>
-        </div>
-    </div>
-</div>
-
-<div class="col-lg mb-4">
-    <div class="card2">
-        <div class="card-body friend-button">
-            <p>Khiera Odle</p>
-        </div>
-    </div>
-</div>
 
 <!--- friends names --->
 

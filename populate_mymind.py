@@ -77,12 +77,13 @@ def create_user(username):
         user.is_superuser=True
         user.is_staff=True
         user.save()
-        return user
+        return [user,mypass]
     except Exception as e:
         print(e)
 def add_UserProfile(username,age, height, weight,sex,data):
-    mypass = get_random_string(8)
-    user = create_user(username)
+    arr = create_user(username)
+    user = arr[0]
+    mypass = arr[1]
     u = UserProfile.objects.get_or_create(user= user)[0]
     u.user = user
     u.age = age
@@ -117,7 +118,7 @@ def generate_data(bpm_dict,stressed,kg,age,sex):
     data = {}
     days = ["01/01/2022","02/01/2022","03/01/2022"]
     c= 0
-    #{"date":{"avg_bpm":avg_bpm,"steps":steps,"Sleep":sleep,"24hr_heart":{"00:00":avg_rate,...,"23:00":avg_rate}}}
+    #{"date":{"avg_bpm":avg_bpm,"steps":steps,'calories':calories,"Sleep":sleep,"24hr_heart":{"00:00":avg_rate,...,"23:00":avg_rate}}}
     for i in range(72):
         if stressed:
             myList = random.choices(lists, cum_weights=(60,40,20), k=1)

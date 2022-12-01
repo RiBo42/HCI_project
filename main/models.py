@@ -14,6 +14,9 @@ class UserProfile(models.Model):
     sex_choices = [(Female, 'Female'),(Male, 'Male')]
     sex = models.CharField(choices=sex_choices, max_length=7,null=True)
     data = models.JSONField(null=True)
+    friends = models.JSONField(default = dict)
+    friend_requests = models.JSONField(default = dict)
+    sent_requests = models.JSONField(default = dict)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):

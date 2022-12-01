@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 from main.views import index
 from main import views
-from main.views import TodayPageView, AllStatsPageView, FriendsPageView, FriendRequestsView, SettingsView
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
@@ -26,14 +25,16 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/',views.user_login,name='login'),
     path('logout/', views.user_logout, name='logout'),
+    path('search_results/<slug:username>', views.search_results, name='search_results'),
+    path('add_friend/<slug:username>/<friend>', views.add_friend, name='add_friend'),
+    path('confirm_request/<slug:username>/<friend>', views.confirm_request, name='confirm_request'),
     path('post/',views.post,name='post'),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('hello/', views.HelloView.as_view(), name='hello'),
     path('user/<slug:username>',views.user, name = 'user'),
-    path('today', TodayPageView.as_view(), name='today'),
-    path('allstats', AllStatsPageView.as_view(), name='allstats'),
-    path('friends', FriendsPageView.as_view(), name= 'friends'),
-    path('friendrequests', FriendRequestsView.as_view(), name='friendrequests'),
-    path('settings', SettingsView.as_view(),name='settings'),
+    path('user/<slug:username>/allstats', views.all_stats, name='allstats'),
+    path('user/<slug:username>/friends', views.friends, name= 'friends'),
+    path('user/<slug:username>/friendrequests', views.friend_requests, name='friendrequests'),
+    path('user/<slug:username>/settings', views.settings,name='settings'),
 ]
