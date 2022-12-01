@@ -1,6 +1,6 @@
+{% extends 'base.html'%}
 {% load static %}
 {% load crispy_forms_tags %}
-
 {% block header %}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,16 +18,6 @@
 
 {% block content %}
 <html>
-<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg nav-bg static-top">
-	  <div class="container">
-	    <a class="navbar-brand" href="{% url 'index' %}">
-	      <img src="{% static 'images/logo.png'%}" alt="MyMind logo" height="40px">
-	    </a>
-			<button type="button" class="btn login-button btn-secondary" ><a href="{% url 'login' %}">Login</a></button>
-	  </div>
-	</nav>
-	<!-- Navigation -->
 
 	<!---- main body ---->
 	<body>

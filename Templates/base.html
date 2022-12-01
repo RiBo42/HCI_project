@@ -30,23 +30,39 @@
 		  </div>
 		</nav> -->
 		<!-- Navigation -->
+{% if user.is_authenticated %}
+{% block navbar_block %}
 
-	<nav class="navbar nnav-color navbar-expand-lg navbar-light py-0">
-		<a href= "{% url 'index' %}">
-			<img class= "navbar-brand login_logo" src="{% static 'images/logo.png'%}" height="40px" alt="MyMind logo">
+{% endblock %}
+<nav class="navbar nnav-color navbar-expand-lg navbar-light py-0">
+	<a href= "{% url 'index' %}">
+		<img class= "navbar-brand login_logo" src="{% static 'images/logo.png'%}" height="40px" alt="MyMind logo">
+	</a>
+	<button class="navbar-toggler btn-primary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		<div class="navbar-nav">
+			<a class="nav-item nav-link active" href="{% url 'logout' %}">Log out <span class="sr-only">(current)</span></a>
+			<a class="nav-item nav-link" href="{% url 'today' %}">Today</a>
+			<a class="nav-item nav-link" href="{% url 'allstats' %}">All stats</a>
+			<a class="nav-item nav-link" href="{% url 'friends' %}">Friends</a>
+			<a class="nav-item nav-link" href="{% url 'settings' %}">Settings</a>
+	</div>
+</div>
+</nav>
+{%else%}
+
+<nav class="navbar navbar-expand-lg nav-bg static-top">
+	<div class="container">
+		<a class="navbar-brand" href="{% url 'index' %}">
+			<img src="{% static 'images/logo.png'%}" alt="MyMind logo" height="40px">
 		</a>
-		<button class="navbar-toggler btn-primary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    	<span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-	    <div class="navbar-nav">
-	      <a class="nav-item nav-link active" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
-	      <a class="nav-item nav-link" href="{% url 'register' %}">Sign Up</a>
-    </div>
-  </div>
-	</nav>
+		<button type="button" class="btn login-button btn-secondary" ><a href="{% url 'login' %}">Login</a></button>
+	</div>
+</nav>
+{%endif%}
 
-	</nav>
 
 
 	<body>
