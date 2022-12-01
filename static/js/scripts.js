@@ -207,7 +207,6 @@ function update_chart(id = 0, double = false){
 
             }
             make_radar_chart(1, response["radar"], "radar");
-            //make_chart(1,response["radar"],unde,"radar","radar");
         }
         
     });
@@ -217,22 +216,18 @@ function update_chart(id = 0, double = false){
 // Determines which data is displayed
 function change_mode(id = 0, mode){
     if(mode == localStorage.getItem('mode1')){
-        console.log("model1 is not null")
         localStorage.removeItem('mode1');
     }
     else if(mode == localStorage.getItem('mode2')){
         localStorage.removeItem('mode2');
     }
     else if(localStorage.getItem('mode1') == null){
-        console.log("model1 is null")
         localStorage.setItem('mode1', mode);
     }
     else if(localStorage.getItem('mode2') == null){
         localStorage.setItem('mode2', mode);
-        console.log("model2 is null")
     }
     else {
-        console.log("model12 is not null")
         localStorage.setItem('mode2', mode);
     }
     update_chart();
@@ -251,8 +246,10 @@ function change_type(id,chart_type){
 $(function() {   
    $('.datetimerange').daterangepicker({
         timePicker: true,
-        startDate: moment().startOf('hour').subtract(24, 'hour'),
-        endDate: moment().startOf('hour'),
+        // startDate: moment().startOf('hour').subtract(24, 'hour'),
+        // endDate: moment().startOf('hour'),
+        startDate: '31/12/2021',
+        endDate: '04/01/2022',
         timePickerIncrement: 30,
         locale: {
             //format: 'MM/DD/YYYY h:mm A'
