@@ -204,4 +204,7 @@ def confirm_request(request, username, friend):
 	for f in list(friends.keys()):
 		friends_list.append(UserProfile.objects.filter(user__username__startswith = f)[0])
 	friends = friends_list
+	for f in list(friends.keys()):
+		friends_list.remove(UserProfile.objects.filter(user__username__startswith = f)[0])
+	friends = friends_list
 	return render(request, 'friends.html',context = {'friend_requests':friend_requests})
