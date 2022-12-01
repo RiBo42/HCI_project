@@ -1,5 +1,6 @@
 var charts = [ undefined, undefined, undefined ];
 
+// Creates and updates main chart with provided data
 function make_chart(id, data1, data2, canvas, chart_type) {
     var ctx = document.getElementById(canvas);
     if (charts[id] != undefined) {
@@ -66,6 +67,7 @@ function make_chart(id, data1, data2, canvas, chart_type) {
         }
         });
     }
+    // if two datasets are present
     else {
         charts[id] = new Chart(ctx, {
         type: chart_type,
@@ -136,15 +138,7 @@ function make_chart(id, data1, data2, canvas, chart_type) {
 
 }
 
-// function make_double_chart(id, data1, data2, canvas, chart_type) {
-//     var ctx = document.getElementById(canvas);
-//     if (charts[id] != undefined) {
-//         charts[id].destroy();
-//     }
-
-    
-// }
-
+// makes data chart from healthy limit & average user data
 function make_radar_chart(id, data, canvas){
     var ctx = document.getElementById(canvas);
     if (charts[id] != undefined) {
@@ -194,10 +188,9 @@ function make_radar_chart(id, data, canvas){
 
 
 
-
+// creates / modifies charts based on date-time range 
 function update_chart(id = 0, double = false){
     var range = $('.datetimerange').data('daterangepicker');    
-    //console.log(range.startDate.format('YYYY-MM-DD HH:MM'));
     $.ajax({
         url: "/filter/",
         data: jQuery.param({
@@ -221,7 +214,7 @@ function update_chart(id = 0, double = false){
 }
 
 
-
+// Determines which data is displayed
 function change_mode(id = 0, mode){
     if(mode == localStorage.getItem('mode1')){
         console.log("model1 is not null")
@@ -246,16 +239,15 @@ function change_mode(id = 0, mode){
 
 
 };
-
+// Changes chart type (bar or line)
 function change_type(id,chart_type){
-    //localStorage.removeItem('c_type');
     localStorage.setItem('c_type',chart_type);
     
     update_chart(id);
 };
 
 
-
+// Determines date-time range
 $(function() {   
    $('.datetimerange').daterangepicker({
         timePicker: true,

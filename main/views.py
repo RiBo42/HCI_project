@@ -24,6 +24,7 @@ measures = {}
 num = 0
 entries = {}
 
+# average of user data
 def Average(l):
 	if(len(l) != 0):
 		return sum(l) / len(l)
@@ -50,11 +51,9 @@ def get_bmr(gender, weight, height, age):
 
 # Filter and provide relevant data 
 def data_filtration(request):
-	# needs to be currently logged in user
 	up = UserProfile.objects.filter(user__username__startswith = "yousuf")[0]
 	json_string = json.dumps(up.data)
 	unfiltered_data = json.loads(json_string)
-	#print(unfiltered_data)
 
 	# Borders for datetime filtration
 	startDate = datetime.strptime(request.GET.get( 	"begin"), "%d/%m/%Y %H:%M")
@@ -73,40 +72,21 @@ def data_filtration(request):
 	user_percentages = None
 
 
-	# for key, value in unfiltered_data.items():
-	# 	raw_labels.append(key.replace("T", " "))
-	# 	raw_data.append(value)
-
+	# modify data structure
 	for key, value in unfiltered_data.items():
-		#key = key.replace("T", " ")
 		key = datetime.strptime(key,"%d/%m/%Y") 
 		if(key > startDate and key < endDate):
-			print(key)
-
 			heartbeat.append(value["avg_bpm"])
 			steps.append(value["steps"])
 			sleep.append(value["Sleep"])
 			calories.append(value["calories"])
-
-			#raw_data.append([value["avg_bpm"], value["steps"],	value["Sleep"], value["calories"]])
 			final_labels.append(key)
 
-
-	#raw_data = raw_data[::30]
-
-	#labels = [datetime.strptime(x[:-7],"%Y-%m-%d %H:%M") for x in raw_labels][::30]
-
-	# for x in labels:
-	# 	if(x > startDate and x < endDate):
-	# 		final_labels.append(x)
-
-	# for x in raw data:
-	# 	final_data.append(x["bpm"])
 
 	# average healthy values
 	user_calories = get_bmr(up.sex,up.weight,up.height,up.age)
 	
-	# dummy user health below
+	# average user values 
 	user_health = [Average(heartbeat),Average(steps),Average(sleep),Average(calories)]
 	if(user_health[0] == None):
 		pass
@@ -118,9 +98,9 @@ def data_filtration(request):
 		(user_health[3]/user_calories),
 	]
 
-	# % of healthy limit the user's data is achieving 
+	# ^ is % of healthy limit the user's data is achieving 
 	
-
+	# all the dictionarty entires feed data to the frontend charts
 	data["heartbeat"] = {
 			"labels": final_labels,
             "datasets":[{
@@ -201,8 +181,6 @@ def data_filtration(request):
 
 
 def index(request):
-	
-
 	context = {}
 	return render(request, 'index.html', context)
 
